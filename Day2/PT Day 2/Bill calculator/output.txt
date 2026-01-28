@@ -1,0 +1,11 @@
+
+--- Person Billing Details ---
+Name     : Raj
+Phone No : 88997*****
+
+--- Bill Breakdown ---
+tea:₹88.00
+food:₹900.00
+coffee:₹799.00
+
+Total Bill : ₹1787.00

@@ -1,0 +1,10 @@
+
+--- Person Billing Details ---
+Name     : Raj
+Phone No : 99887*****
+
+--- Bill Breakdown ---
+Tea:₹20.00
+Milk:₹45.00
+
+Total Bill : ₹65.00
