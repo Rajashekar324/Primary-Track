@@ -1,0 +1,11 @@
+import shutil
+import datetime
+import os
+
+source_path = "C:/Users/RAJASHEKAR/OneDrive/Documents/CapG_Training/Python/script.txt"
+backup_folder = "C:/Users/RAJASHEKAR/OneDrive/Documents/CapG_Training/Python/backups"
+os.makedirs(backup_folder, exist_ok=True)
+backup_path = os.path.join(backup_folder,f"backup_{datetime.date.today()}.txt")
+shutil.copy(source_path, backup_path)
+print("Backup created successfully.")
+print(f"Backup created successfully at:\n{backup_path}")

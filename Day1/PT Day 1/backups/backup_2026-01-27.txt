@@ -1,0 +1,7 @@
+import shutil
+import datetime
+source_path = "C:/Users/RAJASHEKAR/OneDrive/Documents/CapG_Training/Python/script.txt"
+backup_path = f"C:/Users/RAJASHEKAR/OneDrive/Documents/CapG_Training/Python/backup_{datetime.date.today()}.txt"
+shutil.copy(source_path, backup_path)
+print("Backup created successfully.")
+print(f"Backup created successfully at:\n{backup_path}")

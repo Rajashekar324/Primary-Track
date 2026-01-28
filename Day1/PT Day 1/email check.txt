@@ -1,0 +1,4 @@
+email=input("Enter the Email ID")
+pass=input("Enter the Pass")
+if "@" not in email:
+    print("Invalid email")

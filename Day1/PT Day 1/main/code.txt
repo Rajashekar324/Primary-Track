@@ -1,0 +1,13 @@
+import shutil
+import os
+
+source_path = "C:\\Users\\RAJASHEKAR\\OneDrive\\Documents\\CapG_Training\\Python\\main"
+backup_path = "C:/Users/RAJASHEKAR/OneDrive/Documents/CapG_Training/Python/main/backup"
+os.makedirs(backup_path, exist_ok=True)
+for file in os.listdir(source_path):
+    if file.lower().endswith(".jpeg"):
+        src_file = os.path.join(source_path, file)
+        dest_file = os.path.join(backup_path, file)
+        shutil.copy(src_file, dest_file)
+print("Backup created successfully.")
+print(f"All JPEG files copied to:\n{backup_path}")
