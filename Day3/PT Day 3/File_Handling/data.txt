@@ -1,0 +1,2 @@
+Welcome to file handling in python
+This is a simple file

@@ -1,0 +1,10 @@
+========== MINI UBER INVOICE ==========
+Customer : Raj
+Phone    : 98899*****
+--------------------------------------
+Rider    : Arjun
+Route    : Gachibowli -> Kukatpally
+Distance : 15 km
+Fare     : ₹275
+Status   : Ride Completed
+======================================
