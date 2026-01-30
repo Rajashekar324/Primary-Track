@@ -1,0 +1,9 @@
+Disc usage monitoring script-total storage ,used storage,free storage,list usage ,cpu usage,ram usage
+automatic file backup script
+log file error extractor
+folder cleanup automation
+csv report generator
+password strength checkup
+pin multiple server script
+file remaner script
+manage system resource

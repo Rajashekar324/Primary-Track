@@ -1,0 +1,7 @@
+Date,Time,Log_Level,Event_Type,IP_Address,Message
+2024-01-15,10:12:45,INFO,reverse mapping,192.168.1.10,Host resolved successfully
+2024-01-15,10:13:02,INFO,connection,10.0.0.5,Connection established
+2024-01-15,10:14:11,DEBUG,reverse mapping,172.16.0.3,DNS lookup completed
+2024-01-15,10:15:30,ERROR,timeout,8.8.8.8,Request timed out
+2024-01-15,10:16:54,INFO,reverse mapping,203.0.113.45,Reverse DNS successful
+2024-01-15,10:17:20,WARN,reverse mapping,192.168.0.100,Hostname not found
