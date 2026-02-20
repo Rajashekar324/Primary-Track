@@ -1,0 +1,239 @@
+
+RESTful API Assignments 
+
+Assignment 1: Hello REST 
+
+Requirements
+
+Create a FastAPI app
+Create a GET endpoint 
+Return:
+
+```json
+{"message": "Welcome to REST API"}
+```
+
+Hint
+
+Use `@app.get("/")`
+
+---
+
+Assignment 2: Simple Resource (GET)
+
+
+
+Create your first REST resource.
+
+Requirements
+
+Create a list of books (in memory)
+Endpoint:
+
+  ```
+  GET /books
+  ```
+Return all books as JSON
+
+
+
+Use a Python list as a fake database.
+
+
+
+Assignment 3: Path Parameter
+
+Goal
+
+Read one resource by ID.
+
+Requirements
+
+Endpoint:
+
+  ```
+  GET /books/{book_id}
+  ```
+If book not found → return `404`
+
+Hint
+
+Use `HTTPException`
+
+---
+
+Assignment 4: Create Resource (POST)
+
+
+
+Create data using REST.
+
+Requirements
+
+Endpoint:
+
+  ```
+  POST /books
+  ```
+Accept JSON body:
+
+```json
+{
+  "title": "Clean Code",
+  "author": "Robert C. Martin"
+}
+```
+
+Return created book with `id`
+Use status code `201`
+Hint
+
+Use `Pydantic BaseModel`
+
+
+
+Assignment 5: Update Resource (PUT)
+
+
+
+Update an existing resource.
+
+Requirements
+
+Endpoint:
+
+  ```
+  PUT /books/{book_id}
+  ```
+Update title & author
+If book not found → `404`
+
+Hint
+
+PUT replaces the whole object
+
+---
+
+Assignment 6: Delete Resource (DELETE)
+
+
+
+Remove data properly.
+
+Requirements
+
+Endpoint:
+
+  ```
+  DELETE /books/{book_id}
+  ```
+Return:
+
+```json
+{"message": "Book deleted"}
+```
+
+Hint
+
+Remove item from list
+
+---
+
+Assignment 7: Query Parameters
+
+Goal
+
+Filter data using query params.
+
+Requirements
+
+Endpoint:
+
+  ```
+  GET /books?author=Robert
+  ```
+Return only matching books
+
+Hint
+
+Query params are optional function arguments
+
+
+
+Assignment 8: Status Codes & Validation
+
+
+
+Follow REST rules strictly.
+
+Requirements
+
+Use:
+
+   `201` for create
+  `404` for not found
+   `400` for bad request
+Validate:
+
+  title must be at least 3 characters
+
+Hint
+
+Use Pydantic validation
+
+
+
+Assignment 9: API Versioning (Advanced)
+
+
+
+Design future-proof REST APIs.
+
+Requirements
+
+Create:
+
+```
+/api/v1/books
+```
+
+Move all endpoints under versioned path
+
+Hint
+
+Use FastAPI routers
+
+---
+
+Assignment 10: Mini Project (Advanced)
+
+Goal
+
+Build a complete RESTful API
+
+Requirements
+
+Resource: users
+
+Endpoints:
+
+```
+POST   /users
+GET    /users
+GET    /users/{id}
+PUT    /users/{id}
+DELETE /users/{id}
+```
+
+
+
+
+
+Add:
+
+Pagination
+Filtering
+Search
+
+
+

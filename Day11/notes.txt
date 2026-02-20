@@ -1,0 +1,3 @@
+uvicorn main:app --reload
+pip install fastapi uvicorn python-jose passlib[bcrypt]
+jwt=Client → Router → Dependencies → Security → Database
