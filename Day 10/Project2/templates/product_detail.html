@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>{{ product.name }}</h2>
+
+{% if product.image %}
+    <img src="{{ url_for('static', filename='uploads/' + product.image) }}" 
+         width="250" alt="Product Image" class="mb-3">
+{% endif %}
+
+<p><strong>Description:</strong> {{ product.description }}</p>
+<p><strong>Price:</strong> ₹{{ product.price }}</p>
+
+<!-- Cleaned and aligned button group -->
+<div class="d-flex align-items-center gap-3 mt-3 mb-4">
+
+  <a href="/products" class="btn btn-link">← Back to products</a>
+
+  <a class="btn btn-primary" 
+     href="{{ url_for('add_to_cart', product_id=product.id) }}">
+     Add to Cart
+  </a>
+
+  {% if current_user.is_admin %}
+  <a class="btn btn-danger" 
+     href="{{ url_for('delete_product', product_id=product.id) }}">
+     Delete Product
+  </a>
+  {% endif %}
+
+</div>
+
+<h3 class="mt-4 mb-3">Related Products</h3>
+
+<div class="row">
+{% for r in related %}
+  <div class="col-md-4 mb-3">
+    <a href="{{ url_for('product_detail', product_id=r.id) }}"
+       style="text-decoration:none; color:inherit;">
+      <div class="card h-100">
+        <img src="{{ url_for('static', filename='uploads/' + r.image) }}"
+             style="height:150px; object-fit:cover;" class="card-img-top">
+
+        <div class="card-body">
+          <h5>{{ r.name }}</h5>
+          <p>₹{{ r.price }}</p>
+        </div>
+      </div>
+    </a>
+  </div>
+{% endfor %}
+</div>
+
+{% endblock %}
