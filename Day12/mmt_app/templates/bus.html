@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bus Booking</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h2>Create Bus</h2>
+<form action="/create-bus" method="post">
+    Bus Name: <input type="text" name="bus_name">
+    Total Seats: <input type="number" name="total_seats">
+    <button type="submit">Create</button>
+</form>
+
+<h2>Book Seat</h2>
+<form action="/book-seat" method="post">
+    Bus Name: <input type="text" name="bus_name">
+    Seat Number: <input type="number" name="seat_number">
+    <button type="submit">Book</button>
+</form>
+
+<h2>Bus List</h2>
+<ul>
+{% for name, bus in buses.items() %}
+    <li>{{ name }} - Available: {{ bus.available_seats }} - Booked: {{ bus.booked_seats }}</li>
+{% endfor %}
+</ul>
+
+<a href="/">Back</a>
+</body>
+</html>

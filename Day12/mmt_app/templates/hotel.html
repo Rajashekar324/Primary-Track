@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hotel Booking</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h2>Create Hotel</h2>
+<form action="/create-hotel" method="post">
+    Hotel Name: <input type="text" name="hotel_name">
+    Rooms: <input type="number" name="rooms">
+    <button type="submit">Create</button>
+</form>
+
+<h2>Hotels</h2>
+<ul>
+{% for name, hotel in hotels.items() %}
+    <li>{{ name }} - Available Rooms: {{ hotel.available_rooms }}</li>
+{% endfor %}
+</ul>
+
+<a href="/">Back</a>
+</body>
+</html>

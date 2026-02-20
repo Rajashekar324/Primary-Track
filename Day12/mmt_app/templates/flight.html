@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flight Booking</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h2>Create Flight</h2>
+<form action="/create-flight" method="post">
+    Flight Name: <input type="text" name="flight_name">
+    Total Seats: <input type="number" name="total_seats">
+    <button type="submit">Create</button>
+</form>
+
+<h2>Flights</h2>
+<ul>
+{% for name, flight in flights.items() %}
+    <li>{{ name }} - Available Seats: {{ flight.available_seats }}</li>
+{% endfor %}
+</ul>
+
+<a href="/">Back</a>
+</body>
+</html>
