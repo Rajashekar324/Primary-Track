@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body{
+      margin:0;
+      font-family: Arial;
+      background: linear-gradient(135deg,#0f172a,#1e293b,#020617);
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .card{
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(12px);
+      border:1px solid rgba(255,255,255,0.15);
+      padding:30px;
+      border-radius:18px;
+      width:350px;
+      box-shadow:0 15px 40px rgba(0,0,0,0.5);
+      text-align:center;
+    }
+
+    h2{
+      margin-top:0;
+      margin-bottom:15px;
+      letter-spacing:1px;
+    }
+
+    label{
+      display:block;
+      text-align:left;
+      margin-top:15px;
+      font-size:14px;
+      opacity:0.9;
+    }
+
+    input[type="text"],
+    input[type="file"]{
+      width:100%;
+      padding:10px;
+      margin-top:6px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,0.2);
+      background:rgba(255,255,255,0.08);
+      color:white;
+    }
+
+    input::file-selector-button{
+      background:#7c5cff;
+      border:none;
+      padding:6px 12px;
+      border-radius:6px;
+      color:white;
+      cursor:pointer;
+      margin-right:10px;
+    }
+
+    button{
+      margin-top:20px;
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      font-size:15px;
+      font-weight:bold;
+      cursor:pointer;
+      background:linear-gradient(135deg,#7c5cff,#22c55e);
+      color:white;
+      transition:0.2s;
+    }
+
+    button:hover{
+      transform:scale(1.03);
+      box-shadow:0 5px 20px rgba(124,92,255,0.6);
+    }
+
+    .error{
+      margin-top:10px;
+      padding:10px;
+      border-radius:10px;
+      background:#ef4444;
+      font-size:14px;
+    }
+
+    .back{
+      display:inline-block;
+      margin-top:15px;
+      font-size:13px;
+      color:#94a3b8;
+      text-decoration:none;
+    }
+    .back:hover{
+      color:white;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <h2>Upload File</h2>
+
+  {% if error %}
+    <div class="error">{{ error }}</div>
+  {% endif %}
+
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+
+    <label>Title</label>
+    <input type="text" name="title" placeholder="Enter file title">
+
+    <label>Select File</label>
+    <input type="file" name="file">
+
+    <button type="submit">Upload</button>
+
+  </form>
+
+  <a href="/" class="back">← Back to Home</a>
+
+</div>
+
+</body>
+</html>

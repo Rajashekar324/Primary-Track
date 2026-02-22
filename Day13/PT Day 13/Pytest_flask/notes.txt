@@ -1,0 +1,4 @@
+pip install pytest
+
+pytest to run pytest
+run testing file in thi eg: test_app.py to check functions in pytest use cases

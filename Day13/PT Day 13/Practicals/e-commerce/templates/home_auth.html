@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ShopHub - Your Online Store</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      background: #f5f5f5;
+      color: #333;
+    }
+    
+    /* Navigation Bar */
+    .navbar {
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+    }
+    
+    .logo {
+      font-size: 26px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .nav-menu {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      align-items: center;
+    }
+    
+    .nav-menu a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.3s;
+      cursor: pointer;
+    }
+    
+    .nav-menu a:hover {
+      color: #667eea;
+    }
+    
+    .nav-icons {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+    
+    .icon-btn {
+      position: relative;
+      background: none;
+      border: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: #333;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+    
+    .icon-btn:hover {
+      color: #667eea;
+    }
+    
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: #ef4444;
+      color: white;
+      font-size: 11px;
+      padding: 2px 6px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    
+    .user-welcome {
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .user-welcome strong {
+      color: #333;
+    }
+    
+    /* Mobile Menu Toggle */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 28px;
+      cursor: pointer;
+      color: #333;
+    }
+    
+    /* Main Content */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 30px 20px;
+    }
+    
+    /* Section Tabs */
+    .section-tabs {
+      background: white;
+      border-radius: 12px;
+      padding: 8px;
+      margin-bottom: 30px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .tab-btn {
+      padding: 12px 24px;
+      background: none;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s;
+      color: #666;
+    }
+    
+    .tab-btn:hover {
+      background: #f5f5f5;
+      color: #333;
+    }
+    
+    .tab-btn.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+    
+    /* Section Content */
+    .section-content {
+      display: none;
+    }
+    
+    .section-content.active {
+      display: block;
+    }
+    
+    /* Product Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+    
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+    
+    .product-image {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    
+    .product-image-placeholder {
+      z-index: 1;
+    }
+    
+    .product-info {
+      padding: 20px;
+    }
+    
+    .product-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    .product-description {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 12px;
+    }
+    
+    .product-price {
+      font-size: 22px;
+      font-weight: bold;
+      color: #667eea;
+    }
+    
+    .product-stock {
+      font-size: 12px;
+      color: #22c55e;
+      font-weight: 500;
+    }
+    
+    .product-stock.low {
+      color: #f59e0b;
+    }
+    
+    .product-stock.out {
+      color: #ef4444;
+    }
+    
+    /* Admin Panel Cards */
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 18px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background: #f9f9f9;
+      color: #333;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+    
+    input[type="file"] {
+      padding: 10px;
+      background: white;
+      cursor: pointer;
+    }
+    
+    input[type="file"]::file-selector-button {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-right: 10px;
+      font-weight: 500;
+    }
+    
+    input[type="file"]::file-selector-button:hover {
+      opacity: 0.9;
+    }
+    
+    input:focus, select:focus {
+      outline: none;
+      border-color: #667eea;
+      background: white;
+    }
+    
+    button[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 8px;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+    
+    .btn-danger:hover {
+      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+    }
+    
+    .btn-warning {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: white;
+    }
+    
+    /* Cart Section */
+    .cart-header {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .cart-summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .cart-total {
+      font-size: 28px;
+      font-weight: bold;
+      color: #667eea;
+    }
+    
+    .cart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .empty-state-icon {
+      font-size: 80px;
+      margin-bottom: 16px;
+      opacity: 0.3;
+    }
+    
+    .empty-state p {
+      color: #666;
+      font-size: 16px;
+    }
+    
+    /* Order Info */
+    .order-info {
+      background: linear-gradient(135deg, #667eea15, #764ba215);
+      border: 2px solid #667eea40;
+      border-radius: 10px;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    
+    .order-info-title {
+      font-weight: 600;
+      color: #667eea;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+    
+    .order-detail {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #667eea20;
+    }
+    
+    .order-detail:last-child {
+      border-bottom: none;
+    }
+    
+    /* Image Preview */
+    .image-preview {
+      width: 100%;
+      height: 150px;
+      border: 2px dashed #ddd;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      overflow: hidden;
+      background: #fafafa;
+    }
+    
+    .image-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .image-preview-placeholder {
+      color: #999;
+      font-size: 14px;
+      text-align: center;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        position: fixed;
+        left: -100%;
+        top: 70px;
+        flex-direction: column;
+        background: white;
+        width: 100%;
+        padding: 20px;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        transition: left 0.3s;
+        gap: 0;
+      }
+      
+      .nav-menu.active {
+        left: 0;
+      }
+      
+      .nav-menu li {
+        width: 100%;
+        padding: 15px 0;
+        border-bottom: 1px solid #f0f0f0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .user-welcome {
+        display: none;
+      }
+      
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
+      }
+      
+      .product-image {
+        height: 160px;
+        font-size: 40px;
+      }
+      
+      .product-info {
+        padding: 14px;
+      }
+      
+      .admin-grid, .cart-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .section-tabs {
+        padding: 6px;
+      }
+      
+      .tab-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">🛒 ShopHub</div>
+      
+      <ul class="nav-menu" id="navMenu">
+        <li><a onclick="showSection('shop')">Shop</a></li>
+        <li><a onclick="showSection('cart')">My Cart</a></li>
+        <li><a onclick="showSection('orders')">Orders</a></li>
+        <li><a onclick="showSection('admin')">Admin Panel</a></li>
+      </ul>
+      
+      <div class="nav-icons">
+        <span class="user-welcome">Hello, <strong>{{ username|default('Guest') }}</strong></span>
+        <button class="icon-btn" onclick="showSection('cart')" title="Shopping Cart">
+          🛒
+          <span class="cart-badge">{{ cart.get('items', [])|length }}</span>
+        </button>
+        <a href="/logout" class="icon-btn" title="Logout">🚪</a>
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    
+    <!-- Section Tabs (Alternative Navigation) -->
+    <div class="section-tabs">
+      <button class="tab-btn active" onclick="showSection('shop')">🏪 Shop Products</button>
+      <button class="tab-btn" onclick="showSection('cart')">🛒 Shopping Cart</button>
+      <button class="tab-btn" onclick="showSection('orders')">📦 Checkout & Orders</button>
+      <button class="tab-btn" onclick="showSection('admin')">⚙️ Admin Panel</button>
+    </div>
+
+    <!-- SHOP SECTION -->
+    <div id="shop" class="section-content active">
+      <h2 style="margin-bottom: 24px; font-size: 28px;">Featured Products</h2>
+      
+      {% if items|length == 0 %}
+        <div class="empty-state">
+          <div class="empty-state-icon">📦</div>
+          <p>No products available yet. Add products from the Admin Panel.</p>
+        </div>
+      {% else %}
+        <div class="products-grid">
+          {% for item in items %}
+            <div class="product-card">
+              <div class="product-image">
+                {% if item.image_url %}
+                  <img src="{{ item.image_url }}" alt="{{ item.title }}">
+                {% else %}
+                  <span class="product-image-placeholder">🎁</span>
+                {% endif %}
+              </div>
+              <div class="product-info">
+                <div class="product-title">{{ item.title }}</div>
+                <div class="product-description">{{ item.description|default('No description') }}</div>
+                <div class="product-footer">
+                  <div class="product-price">₹{{ "%.2f"|format(item.price) }}</div>
+                  <div class="product-stock {% if item.stock == 0 %}out{% elif item.stock < 5 %}low{% endif %}">
+                    {% if item.stock == 0 %}
+                      Out of Stock
+                    {% elif item.stock < 5 %}
+                      Only {{ item.stock }} left
+                    {% else %}
+                      In Stock
+                    {% endif %}
+                  </div>
+                </div>
+                <form method="POST" action="/ui/add-to-cart" style="margin-top: 12px;">
+                  <input type="hidden" name="item_id" value="{{ item.id }}">
+                  <input type="hidden" name="quantity" value="1">
+                  <button type="submit" class="btn-primary" {% if item.stock == 0 %}disabled{% endif %}>
+                    {% if item.stock == 0 %}Sold Out{% else %}Add to Cart{% endif %}
+                  </button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- CART SECTION -->
+    <div id="cart" class="section-content">
+      <div class="cart-header">
+        <div class="cart-summary">
+          <div>
+            <h2 style="font-size: 28px; margin-bottom: 8px;">Shopping Cart</h2>
+            <p style="color: #666; font-size: 14px;">Review your items before checkout</p>
+          </div>
+          <div class="cart-total">₹{{ "%.2f"|format(cart.get('subtotal', 0)) }}</div>
+        </div>
+      </div>
+
+      {% if cart.get('items', [])|length == 0 %}
+        <div class="empty-state">
+          <div class="empty-state-icon">🛒</div>
+          <p>Your cart is empty. Add some products from the Shop section!</p>
+        </div>
+      {% else %}
+        <div style="background: white; border-radius: 12px; padding: 24px; margin-bottom: 30px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+          <h3 style="margin-bottom: 20px; font-size: 18px;">Items in Cart</h3>
+          <div style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr style="border-bottom: 2px solid #eee;">
+                  <th style="text-align: left; padding: 12px; font-weight: 600; color: #333;">Product Name</th>
+                  <th style="text-align: center; padding: 12px; font-weight: 600; color: #333;">Price</th>
+                  <th style="text-align: center; padding: 12px; font-weight: 600; color: #333;">Quantity</th>
+                  <th style="text-align: right; padding: 12px; font-weight: 600; color: #333;">Total</th>
+                  <th style="text-align: center; padding: 12px; font-weight: 600; color: #333;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in cart.get('items', []) %}
+                  <tr style="border-bottom: 1px solid #eee;">
+                    <td style="padding: 16px 12px; color: #333;">{{ item.title }}</td>
+                    <td style="text-align: center; padding: 16px 12px; color: #666;">₹{{ "%.2f"|format(item.price) }}</td>
+                    <td style="text-align: center; padding: 16px 12px; color: #666;">{{ item.quantity }}</td>
+                    <td style="text-align: right; padding: 16px 12px; color: #333; font-weight: 600;">₹{{ "%.2f"|format(item.line_total) }}</td>
+                    <td style="text-align: center; padding: 16px 12px;">
+                      <form method="POST" action="/ui/remove-from-cart" style="display: inline;">
+                        <input type="hidden" name="item_id" value="{{ item.item_id }}">
+                        <input type="hidden" name="quantity" value="{{ item.quantity }}">
+                        <button type="submit" class="btn-danger" style="width: auto; padding: 8px 16px; font-size: 12px; margin: 0;">Remove</button>
+                      </form>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+              <tfoot>
+                <tr style="border-top: 2px solid #667eea;">
+                  <td colspan="3" style="padding: 16px 12px; text-align: right; font-weight: 600; color: #333;">Subtotal:</td>
+                  <td style="padding: 16px 12px; text-align: right; font-weight: 600; color: #667eea; font-size: 18px;">₹{{ "%.2f"|format(cart.get('subtotal', 0)) }}</td>
+                  <td style="padding: 16px 12px;"></td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="cart-grid">
+        <div class="card">
+          <h3>➕ Add to Cart</h3>
+          <form method="POST" action="/ui/add-to-cart">
+            <div class="form-group">
+              <label>Item ID</label>
+              <input name="item_id" type="number" required placeholder="Enter product ID">
+            </div>
+            <div class="form-group">
+              <label>Quantity</label>
+              <input name="quantity" type="number" value="1" required min="1">
+            </div>
+            <button type="submit" class="btn-primary">Add to Cart</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>➖ Remove from Cart</h3>
+          <form method="POST" action="/ui/remove-from-cart">
+            <div class="form-group">
+              <label>Item ID</label>
+              <input name="item_id" type="number" required placeholder="Enter product ID">
+            </div>
+            <div class="form-group">
+              <label>Quantity</label>
+              <input name="quantity" type="number" value="1" min="1">
+            </div>
+            <button type="submit" class="btn-warning">Remove from Cart</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS SECTION -->
+    <div id="orders" class="section-content">
+      <h2 style="margin-bottom: 24px; font-size: 28px;">Checkout & Payment</h2>
+      
+      <div class="cart-grid">
+        <div class="card">
+          <h3>📋 Checkout</h3>
+          <form method="POST" action="/ui/checkout">
+            <div class="form-group">
+              <label>Full Name</label>
+              <input name="name" required placeholder="Enter your full name">
+            </div>
+            <div class="form-group">
+              <label>Delivery Address</label>
+              <input name="address" required placeholder="Complete delivery address">
+            </div>
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select name="payment_method" required>
+                <option value="">Choose payment method</option>
+                <option value="COD">💵 Cash on Delivery</option>
+                <option value="UPI">📱 UPI Payment</option>
+                <option value="CARD">💳 Credit/Debit Card</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary">Place Order</button>
+          </form>
+          
+          {% if last_order_id %}
+            <div class="order-info">
+              <div class="order-info-title">✅ Last Order Placed</div>
+              <div class="order-detail">
+                <span>Order ID:</span>
+                <strong>{{ last_order_id }}</strong>
+              </div>
+              <div class="order-detail">
+                <span>Amount:</span>
+                <strong>₹{{ "%.2f"|format(last_order_amount) }}</strong>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="card">
+          <h3>💳 Complete Payment</h3>
+          <form method="POST" action="/ui/payment">
+            <div class="form-group">
+              <label>Order ID</label>
+              <input name="order_id" required placeholder="Enter order ID">
+            </div>
+            <div class="form-group">
+              <label>Payment Method</label>
+              <select name="method" required>
+                <option value="">Select method</option>
+                <option value="UPI">📱 UPI Payment</option>
+                <option value="CARD">💳 Credit/Debit Card</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Amount (₹)</label>
+              <input name="amount" type="number" step="0.01" required placeholder="0.00">
+            </div>
+            <button type="submit" class="btn-primary">Pay Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADMIN SECTION -->
+    <div id="admin" class="section-content">
+      <h2 style="margin-bottom: 24px; font-size: 28px;">Admin Panel</h2>
+      
+      <div class="admin-grid">
+        <div class="card">
+          <h3>➕ Add New Product</h3>
+          <form method="POST" action="/ui/add-item" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Product Title</label>
+              <input name="title" required placeholder="Enter product name">
+            </div>
+            <div class="form-group">
+              <label>Description</label>
+              <input name="description" placeholder="Product description">
+            </div>
+            <div class="form-group">
+              <label>Price (₹)</label>
+              <input name="price" type="number" step="0.01" required placeholder="0.00">
+            </div>
+            <div class="form-group">
+              <label>Stock Quantity</label>
+              <input name="stock" type="number" required placeholder="0">
+            </div>
+            <div class="form-group">
+              <label>Product Image</label>
+              <input name="image" type="file" accept="image/*" onchange="previewImage(event, 'addPreview')">
+              <div class="image-preview" id="addPreview">
+                <div class="image-preview-placeholder">No image selected</div>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary">Add Product</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>✏️ Update Product</h3>
+          <form method="POST" action="/ui/update-item" enctype="multipart/form-data">
+            <div class="form-group">
+              <label>Product ID</label>
+              <input name="item_id" type="number" required placeholder="Enter product ID">
+            </div>
+            <div class="form-group">
+              <label>New Title (Optional)</label>
+              <input name="title" placeholder="Leave blank to keep current">
+            </div>
+            <div class="form-group">
+              <label>New Description (Optional)</label>
+              <input name="description" placeholder="Leave blank to keep current">
+            </div>
+            <div class="form-group">
+              <label>New Price (Optional)</label>
+              <input name="price" type="number" step="0.01" placeholder="0.00">
+            </div>
+            <div class="form-group">
+              <label>New Stock (Optional)</label>
+              <input name="stock" type="number" placeholder="0">
+            </div>
+            <div class="form-group">
+              <label>New Product Image (Optional)</label>
+              <input name="image" type="file" accept="image/*" onchange="previewImage(event, 'updatePreview')">
+              <div class="image-preview" id="updatePreview">
+                <div class="image-preview-placeholder">No new image selected</div>
+              </div>
+            </div>
+            <button type="submit" class="btn-primary">Update Product</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h3>🗑️ Delete Product</h3>
+          <form method="POST" action="/ui/delete-item">
+            <div class="form-group">
+              <label>Product ID</label>
+              <input name="item_id" type="number" required placeholder="Enter product ID to delete">
+            </div>
+            <button type="submit" class="btn-danger">Delete Product</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll('.section-content').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      document.getElementById(sectionId).classList.add('active');
+      
+      const tabIndex = ['shop', 'cart', 'orders', 'admin'].indexOf(sectionId);
+      document.querySelectorAll('.tab-btn')[tabIndex].classList.add('active');
+      
+      document.getElementById('navMenu').classList.remove('active');
+    }
+    
+    function toggleMenu() {
+      document.getElementById('navMenu').classList.toggle('active');
+    }
+    
+    function previewImage(event, previewId) {
+      const preview = document.getElementById(previewId);
+      const file = event.target.files[0];
+      
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        preview.innerHTML = '<div class="image-preview-placeholder">No image selected</div>';
+      }
+    }
+  </script>
+
+</body>
+</html>
