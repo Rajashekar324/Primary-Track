@@ -1,0 +1,6 @@
+<!-- Paste HTML content of contacts_list.html here -->
+<h2>Contacts</h2>
+{% for c in contacts %}
+<p>{{ c.name }} - {{ c.email }}</p>
+{% endfor %}
+<a href="/">Home</a>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Students</title>
+</head>
+<body>
+  <h2>Students List</h2>
+  <a href="/add">Add Student</a>
+  <hr>
+
+  {% if students|length == 0 %}
+    <p>No students found.</p>
+  {% else %}
+    <table border="1" cellpadding="8">
+      <tr>
+        <th>ID</th><th>Name</th><th>Age</th><th>Course</th><th>Actions</th>
+      </tr>
+      {% for s in students %}
+      <tr>
+        <td>{{ s.id }}</td>
+        <td>{{ s.name }}</td>
+        <td>{{ s.age }}</td>
+        <td>{{ s.course }}</td>
+        <td>
+          <a href="/view/{{ s.id }}">View</a> |
+          <a href="/edit/{{ s.id }}">Edit</a> |
+          <form action="/delete/{{ s.id }}" method="post" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  {% endif %}
+</body>
+</html>

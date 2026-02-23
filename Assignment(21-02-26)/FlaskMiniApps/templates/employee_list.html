@@ -1,0 +1,6 @@
+<!-- Paste HTML content of employee_list.html here -->
+<h2>Employees</h2>
+{% for e in employees %}
+<p>{{ e.name }} - {{ e.department }}</p>
+{% endfor %}
+<a href="/">Home</a>

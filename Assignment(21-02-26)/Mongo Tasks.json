@@ -1,0 +1,27 @@
+[{
+  "_id": {
+    "$oid": "699969912a497c83ee7c2909"
+  },
+  "name": "Sita",
+  "age": 22,
+  "course": "Full Stack"
+},
+{
+  "_id": {
+    "$oid": "699969912a497c83ee7c290b"
+  },
+  "name": "Meena",
+  "age": 24,
+  "course": "Full Stack"
+},
+{
+  "_id": {
+    "$oid": "69996a602a497c83ee7c290d"
+  },
+  "name": "Krishna",
+  "age": 23,
+  "address": {
+    "city": "Hyderabad",
+    "state": "Telangana"
+  }
+}]

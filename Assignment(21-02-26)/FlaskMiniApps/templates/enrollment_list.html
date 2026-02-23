@@ -1,0 +1,6 @@
+<!-- Paste HTML content of enrollment_list.html here -->
+<h2>Enrollments</h2>
+{% for e in enrollments %}
+<p>{{ e.student_name }} - {{ e.course_name }}</p>
+{% endfor %}
+<a href="/">Home</a>
