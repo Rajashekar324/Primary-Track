@@ -1,0 +1,79 @@
+<!DOCTYPE backward>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Inventory - Login</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .bg-gradient-custom { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+    </style>
+</head>
+<body class="bg-gradient-custom text-white min-h-screen flex items-center justify-center">
+
+    <div class="bg-slate-800 p-8 rounded-2xl shadow-2xl w-full max-w-md border border-slate-700">
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400">Cloud Inventory</h1>
+            <p class="text-slate-400 mt-2 text-sm">Sign in or register to manage your assets</p>
+        </div>
+
+        <!-- Toggle Login/Register -->
+        <div class="flex justify-center mb-6 bg-slate-700/50 p-1 rounded-lg">
+            <button id="tab-login" class="flex-1 py-2 px-4 rounded-md text-sm font-medium bg-blue-500 text-white shadow transition-all" onclick="toggleMode('login')">Login</button>
+            <button id="tab-register" class="flex-1 py-2 px-4 rounded-md text-sm font-medium text-slate-300 hover:text-white transition-all" onclick="toggleMode('register')">Register</button>
+        </div>
+
+        <form id="auth-form" class="space-y-4">
+            
+            <div id="email-group" class="hidden">
+                <label class="block text-sm font-medium text-slate-300 mb-1">Email</label>
+                <input type="email" id="email" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-white placeholder-slate-500" placeholder="you@example.com">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Username</label>
+                <input type="text" id="username" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-white placeholder-slate-500" placeholder="admin">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-300 mb-1">Password</label>
+                <input type="password" id="password" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all text-white placeholder-slate-500" placeholder="••••••••">
+            </div>
+
+            <div class="pt-2">
+                <label class="block text-sm font-medium text-slate-300 mb-3">Select Storage Database</label>
+                <div class="grid grid-cols-2 gap-4">
+                    <label class="relative flex cursor-pointer rounded-lg border border-slate-700 bg-slate-900/50 p-4 hover:bg-slate-800 transition-colors">
+                        <input type="radio" name="db_choice" value="mysql" class="peer sr-only" checked>
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-blue-400">MySQL</span>
+                            <span class="text-xs text-slate-400 mt-1">Relational store</span>
+                        </div>
+                        <div class="absolute inset-0 rounded-lg border-2 border-transparent peer-checked:border-blue-500 pointer-events-none"></div>
+                    </label>
+
+                    <label class="relative flex cursor-pointer rounded-lg border border-slate-700 bg-slate-900/50 p-4 hover:bg-slate-800 transition-colors">
+                        <input type="radio" name="db_choice" value="mongodb" class="peer sr-only">
+                        <div class="flex flex-col">
+                            <span class="font-semibold text-emerald-400">MongoDB</span>
+                            <span class="text-xs text-slate-400 mt-1">NoSQL Document store</span>
+                        </div>
+                        <div class="absolute inset-0 rounded-lg border-2 border-transparent peer-checked:border-emerald-500 pointer-events-none"></div>
+                    </label>
+                </div>
+            </div>
+
+            <div id="error-msg" class="text-red-400 text-sm hidden mt-2">Invalid credentials</div>
+
+            <button type="submit" id="submit-btn" class="w-full mt-6 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                Sign In
+            </button>
+        </form>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Inventory - Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .nav-active {
+            background-color: #e2e8f0;
+            color: #1e293b;
+            font-weight: 600;
+            border-left: 4px solid #3b82f6;
+        }
+
+        .nav-item {
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover:not(.nav-active) {
+            background-color: #f1f5f9;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="flex h-screen overflow-hidden text-slate-800">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col z-10 shadow-sm relative">
+        <div class="p-6 border-b border-slate-200 flex items-center justify-between">
+            <h2 class="text-xl font-bold text-blue-600 flex items-center gap-2">
+                <i class="fa-solid fa-box-open"></i> CloudInv
+            </h2>
+        </div>
+
+        <div class="px-4 py-6 flex-1 space-y-2">
+            <button onclick="switchView('products')" id="nav-products"
+                class="nav-item nav-active w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-slate-600">
+                <i class="fa-solid fa-layer-group w-5"></i> Products
+            </button>
+            <button onclick="switchView('orders')" id="nav-orders"
+                class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-slate-600">
+                <i class="fa-solid fa-cart-shopping w-5"></i> Orders
+            </button>
+            <button onclick="switchView('logs')" id="nav-logs"
+                class="nav-item w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-slate-600">
+                <i class="fa-solid fa-clipboard-list w-5"></i> Activity Logs
+            </button>
+        </div>
+
+        <div class="p-4 border-t border-slate-200 bg-slate-50">
+            <div class="flex items-center gap-3 mb-4">
+                <div
+                    class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <div>
+                    <p id="user-display" class="text-sm font-semibold">User</p>
+                    <p id="db-display" class="text-xs text-slate-500 uppercase">DB</p>
+                </div>
+            </div>
+            <button onclick="logout()"
+                class="w-full py-2 flex items-center justify-center gap-2 text-sm text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto bg-slate-50 relative">
+        <!-- Header -->
+        <header
+            class="bg-white px-8 py-5 border-b border-slate-200 sticky top-0 z-10 flex justify-between items-center shadow-sm">
+            <h1 id="page-title" class="text-2xl font-bold text-slate-800">Products Catalog</h1>
+            <div id="header-actions">
+                <button onclick="openModal('product-modal')"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Add Product
+                </button>
+            </div>
+        </header>
+
+        <div class="p-8">
+            <!-- Loading State -->
+            <div id="loading" class="hidden flex justify-center items-center py-20">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+            </div>
+
+            <!-- Error State -->
+            <div id="error-message" class="hidden bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6"
+                role="alert"></div>
+
+            <!-- Views Container -->
+            <div id="view-products" class="fade-in space-y-6">
+                <!-- Data will be injected here -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="products-grid">
+                </div>
+            </div>
+
+            <div id="view-orders" class="hidden fade-in space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    ID</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    Date</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    Status</th>
+                                <th
+                                    class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    Total</th>
+                                <th
+                                    class="px-6 py-4 text-right text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                                    Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-slate-200" id="orders-list">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="view-logs" class="hidden fade-in space-y-6">
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden relative">
+                    <div class="absolute inset-0 bg-slate-900 pointer-events-none p-4 opacity-[0.02]"
+                        style="background-image: radial-gradient(#333 1px, transparent 1px); background-size: 20px 20px;">
+                    </div>
+                    <ul class="divide-y divide-slate-100 relative z-10" id="logs-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals Overlay -->
+    <div id="modal-overlay"
+        class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity flex justify-center items-center p-4">
+
+        <!-- Add Product Modal -->
+        <div id="product-modal"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-md hidden transform scale-95 transition-transform overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
+                <h3 class="text-lg font-bold text-slate-800">Add New Product</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-red-500 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <form id="product-form" class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Name</label>
+                    <input type="text" id="prod-name" required
+                        class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Description</label>
+                    <textarea id="prod-desc" rows="2"
+                        class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"></textarea>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Price ($)</label>
+                        <input type="number" id="prod-price" step="0.01" required
+                            class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Initial Stock</label>
+                        <input type="number" id="prod-qty" value="0" min="0" required
+                            class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                    </div>
+                </div>
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" onclick="closeModal()"
+                        class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">Cancel</button>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">Save
+                        Product</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Place Order Modal -->
+        <div id="order-modal"
+            class="bg-white rounded-2xl shadow-2xl w-full max-w-lg hidden transform scale-95 transition-transform overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50/50">
+                <h3 class="text-lg font-bold text-slate-800">Place Order</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-red-500 transition-colors">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <!-- Select Product -->
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Select Product to Order</label>
+                    <select id="order-product-select"
+                        class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                        <!-- Populated dynamiclly -->
+                    </select>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Quantity</label>
+                    <input type="number" id="order-qty" min="1" value="1"
+                        class="w-full border border-slate-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div class="pt-4 border-t border-slate-200 mt-4 flex justify-between items-center">
+                    <div class="text-sm font-medium text-slate-500">Quick Order (1 item type)</div>
+                    <div class="space-x-2">
+                        <button type="button" onclick="closeModal()"
+                            class="px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">Cancel</button>
+                        <button onclick="submitOrder()"
+                            class="px-4 py-2 text-sm font-medium text-white bg-emerald-600 rounded-lg hover:bg-emerald-700">Confirm
+                            Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2"></div>
+
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
